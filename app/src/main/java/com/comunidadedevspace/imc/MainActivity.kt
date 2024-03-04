@@ -3,6 +3,7 @@ package com.comunidadedevspace.imc
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.lifecycle.whenCreated
 import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity() {
@@ -15,11 +16,12 @@ class MainActivity : AppCompatActivity() {
         val btnCalculate = findViewById<Button>(R.id.btn_calculate)
 
         btnCalculate.setOnClickListener {
-            val weight = edtWeight.text
-            val height = edtHeight.text
+            val weight = edtWeight.text.toString().toFloat()
+            val height = edtHeight.text.toString().toFloat()
 
-            println("Test + $weight + $height")
+            val bmiHeight = height * height
+            val bmiResult = weight / bmiHeight
+            println("Test: $bmiResult")
         }
-
     }
 }
