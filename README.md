@@ -1,19 +1,28 @@
 # Calculadora IMC
-Desc
+This project is a native Android application developed with Kotlin and has as its main functionality to calculate the Body Mass Index and show on a second screen.
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-Screenshots
+<img src="https://github.com/MateusLand/BMICalculator/assets/77392394/ab05187f-e512-49ae-90dd-6ce344ce97e5" width=300/> <img src="https://github.com/MateusLand/BMICalculator/assets/77392394/8e56b7ac-aa6f-45fe-bfc1-9b6ea4c30771" width=300/>
 
 ## Tecnologias
-Techs
+- Activity
+- Intent
+- SnackBar
+- ViewGroups
+  - LinearLayout
+  - ConstraintLayout
+- ImageView
+- TextView
+- EditText
+- Button 
 
 
 ## License
 ```
 The MIT License (MIT)
 
-Copyright (c) 2023 Roque Buarque Junior
+Copyright (c) 2024 Mateus Land
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
