@@ -1,0 +1,26 @@
+Index: app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.comunidadedevspace.imc\n\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.widget.Button\nimport androidx.lifecycle.whenCreated\nimport com.google.android.material.textfield.TextInputEditText\n\nclass MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val edtWeight = findViewById<TextInputEditText>(R.id.edt_weight)\n        val edtHeight = findViewById<TextInputEditText>(R.id.edt_height)\n        val btnCalculate = findViewById<Button>(R.id.btn_calculate)\n\n        btnCalculate.setOnClickListener {\n            val weight = edtWeight.text.toString().toFloat()\n            val height = edtHeight.text.toString().toFloat()\n\n            val bmiHeight = height * height\n            val bmiResult = weight / bmiHeight\n            println(\"Test: $bmiResult\")\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+--- a/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt	(revision f7b8082206a680248160051cca7529c8af0776f0)
++++ b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt	(date 1709556213948)
+@@ -20,8 +20,12 @@
+             val height = edtHeight.text.toString().toFloat()
+ 
+             val bmiHeight = height * height
+-            val bmiResult = weight / bmiHeight
+-            println("Test: $bmiResult")
++            when (val bmiResult = weight / bmiHeight) {
++                in 0.0..18.5 -> println("Underweight: $bmiResult")
++                in 18.5..24.9 -> println("Normal: $bmiResult")
++                in 25.0..29.9 -> println("Overweight: $bmiResult")
++                in 30.0..100.0 -> println("Obesity: $bmiResult")
++            }
+         }
+     }
+ }
+\ No newline at end of file

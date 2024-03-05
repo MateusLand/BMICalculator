@@ -1,0 +1,36 @@
+Index: app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.comunidadedevspace.imc\n\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.widget.Button\nimport com.google.android.material.textfield.TextInputEditText\n\nclass MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val edtWeight = findViewById<TextInputEditText>(R.id.edt_weight)\n        val edtHeight = findViewById<TextInputEditText>(R.id.edt_height)\n        val btnCalculate = findViewById<Button>(R.id.btn_calculate)\n\n        btnCalculate.setOnClickListener {\n            val weight = edtWeight.text\n            val height = edtHeight.text\n\n            println(\"Test + $weight + $height\")\n        }\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+--- a/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt	(revision 2e9b1d152d35d7145703f07d48554ae93f446bec)
++++ b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt	(date 1709556644745)
+@@ -3,6 +3,7 @@
+ import androidx.appcompat.app.AppCompatActivity
+ import android.os.Bundle
+ import android.widget.Button
++import androidx.lifecycle.whenCreated
+ import com.google.android.material.textfield.TextInputEditText
+ 
+ class MainActivity : AppCompatActivity() {
+@@ -15,11 +16,12 @@
+         val btnCalculate = findViewById<Button>(R.id.btn_calculate)
+ 
+         btnCalculate.setOnClickListener {
+-            val weight = edtWeight.text
+-            val height = edtHeight.text
++            val weight = edtWeight.text.toString().toFloat()
++            val height = edtHeight.text.toString().toFloat()
+ 
+-            println("Test + $weight + $height")
++            val bmiHeight = height * height
++            val bmiResult = weight / bmiHeight
++            println("Test: $bmiResult")
+         }
+-
+     }
+ }
+\ No newline at end of file

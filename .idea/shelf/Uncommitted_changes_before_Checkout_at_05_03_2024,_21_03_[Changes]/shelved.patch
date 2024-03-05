@@ -1,0 +1,477 @@
+Index: app/src/main/java/com/comunidadedevspace/imc/ResultActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/comunidadedevspace/imc/ResultActivity.kt b/app/src/main/java/com/comunidadedevspace/imc/ResultActivity.kt
+new file mode 100644
+--- /dev/null	(date 1709672122971)
++++ b/app/src/main/java/com/comunidadedevspace/imc/ResultActivity.kt	(date 1709672122971)
+@@ -0,0 +1,61 @@
++package com.comunidadedevspace.imc
++
++import android.content.Intent
++import android.os.Bundle
++import android.widget.Button
++import android.widget.TextView
++import androidx.appcompat.app.AppCompatActivity
++import androidx.core.content.ContextCompat
++
++const val KEY_RESULT_BMI = "ResultActivity.KEY_BMI"
++
++class ResultActivity : AppCompatActivity() {
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        setContentView(R.layout.activity_result)
++
++        val result = intent.getFloatExtra(KEY_RESULT_BMI, 0f)
++
++        val tvResult = findViewById<TextView>(R.id.tv_Result)
++        val tvClassification = findViewById<TextView>(R.id.tv_Classification)
++        val btnRecalculate = findViewById<Button>(R.id.btn_Recalculate)
++
++        tvResult.text = result.toString()
++
++        val classification = when {
++            result < 18.5f -> {
++                // Set color for Underweight (Red)
++                tvClassification.setTextColor(ContextCompat.getColor(this, R.color.colorRed))
++                "Underweight"
++            }
++            result in 18.5f..24.9f -> {
++                // Set color for Normal (Green)
++                tvClassification.setTextColor(ContextCompat.getColor(this, R.color.colorGreen))
++                "NORMAL"
++            }
++            result in 25f..29.9f -> {
++                // Set color for Overweight (Yellow)
++                tvClassification.setTextColor(ContextCompat.getColor(this, R.color.colorYellow))
++                "OVERWEIGHT"
++            }
++            result in 30f..39.9f -> {
++                // Set color for Obesity (Red)
++                tvClassification.setTextColor(ContextCompat.getColor(this, R.color.colorRed))
++                "OBESITY"
++            }
++            else -> {
++                // Set color for Extreme Obesity (Red)
++                tvClassification.setTextColor(ContextCompat.getColor(this, R.color.colorRed))
++                "EXTREME OBESITY"
++            }
++        }
++
++        btnRecalculate.setOnClickListener {
++            val intent = Intent(this, MainActivity::class.java)
++            startActivity(intent)
++            finish()
++        }
++
++        tvClassification.text = classification
++    }
++}
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1709548727487)
++++ b/.idea/compiler.xml	(date 1709548727487)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="17" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+new file mode 100644
+--- /dev/null	(date 1709672140959)
++++ b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt	(date 1709672140959)
+@@ -0,0 +1,44 @@
++package com.comunidadedevspace.imc
++
++import android.content.Intent
++import androidx.appcompat.app.AppCompatActivity
++import android.os.Bundle
++import android.widget.Button
++import com.google.android.material.snackbar.Snackbar
++import com.google.android.material.textfield.TextInputEditText
++
++class MainActivity : AppCompatActivity() {
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        setContentView(R.layout.activity_main)
++
++        val edtWeight = findViewById<TextInputEditText>(R.id.edt_weight)
++        val edtHeight = findViewById<TextInputEditText>(R.id.edt_height)
++        val btnCalculate = findViewById<Button>(R.id.btn_calculate)
++
++        btnCalculate.setOnClickListener {
++            val weightStr = edtWeight.text.toString()
++            val heightStr = edtHeight.text.toString()
++
++            if (weightStr.isEmpty() || heightStr.isEmpty()) {
++
++                Snackbar.make(
++                    edtWeight,
++                    "Fields cannot be empty",
++                    Snackbar.LENGTH_SHORT
++                ).show()
++
++            } else {
++                val weight = weightStr.toFloat()
++                val height = heightStr.toFloat()
++
++                val finalHeight = height * height
++                val bmiResult = weight / finalHeight
++
++                val intent = Intent(this, ResultActivity::class.java)
++                intent.putExtra(KEY_RESULT_BMI, bmiResult)
++                startActivity(intent)
++            }
++        }
++    }
++}
+Index: .idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.name b/.idea/.name
+new file mode 100644
+--- /dev/null	(date 1709548727355)
++++ b/.idea/.name	(date 1709548727355)
+@@ -0,0 +1,1 @@
++calculadoraimc
+\ No newline at end of file
+Index: app/src/main/res/drawable/round_bg.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/round_bg.xml b/app/src/main/res/drawable/round_bg.xml
+new file mode 100644
+--- /dev/null	(date 1709656454344)
++++ b/app/src/main/res/drawable/round_bg.xml	(date 1709656454344)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++    <solid android:color="#E8E8E8" /> <!-- Gray color for background -->
++    <corners android:radius="12dp" /> <!-- Radius for the rounded corners -->
++
++</shape>
+\ No newline at end of file
+Index: .idea/kotlinc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/kotlinc.xml b/.idea/kotlinc.xml
+new file mode 100644
+--- /dev/null	(date 1709548746692)
++++ b/.idea/kotlinc.xml	(date 1709548746692)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="KotlinJpsPluginSettings">
++    <option name="version" value="1.9.0" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+new file mode 100644
+--- /dev/null	(date 1709635308936)
++++ b/.idea/gradle.xml	(date 1709635308936)
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
++  <component name="GradleSettings">
++    <option name="linkedExternalProjectsSettings">
++      <GradleProjectSettings>
++        <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$" />
++            <option value="$PROJECT_DIR$/app" />
++          </set>
++        </option>
++        <option name="resolveExternalAnnotations" value="false" />
++      </GradleProjectSettings>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/drawable/gradient_bg.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/gradient_bg.xml b/app/src/main/res/drawable/gradient_bg.xml
+new file mode 100644
+--- /dev/null	(date 1709657425008)
++++ b/app/src/main/res/drawable/gradient_bg.xml	(date 1709657425008)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++    <corners android:topLeftRadius="0dp"
++             android:topRightRadius="0dp"
++             android:bottomLeftRadius="16dp"
++             android:bottomRightRadius="16dp" />
++
++    <gradient android:startColor="@color/primary_400"
++              android:endColor="@color/primary_900"
++              android:angle="90" />
++</shape>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1709548668341)
++++ b/.idea/vcs.xml	(date 1709548668341)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/migrations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/migrations.xml b/.idea/migrations.xml
+new file mode 100644
+--- /dev/null	(date 1709548668347)
++++ b/.idea/migrations.xml	(date 1709548668347)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectMigrations">
++    <option name="MigrateToGradleLocalJavaHome">
++      <set>
++        <option value="$PROJECT_DIR$" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/drawable/ic_weight.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_weight.xml b/app/src/main/res/drawable/ic_weight.xml
+new file mode 100644
+--- /dev/null	(date 1709657220712)
++++ b/app/src/main/res/drawable/ic_weight.xml	(date 1709657220712)
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="960"
++    android:viewportHeight="960">
++  <path
++      android:fillColor="#808080"
++      android:pathData="M480,460q42,0 71,-29t29,-71q0,-42 -29,-71t-71,-29q-42,0 -71,29t-29,71q0,42 29,71t71,29ZM420,380q-8,0 -14,-6t-6,-14q0,-8 6,-14t14,-6q8,0 14,6t6,14q0,8 -6,14t-14,6ZM480,380q-8,0 -14,-6t-6,-14q0,-8 6,-14t14,-6q8,0 14,6t6,14q0,8 -6,14t-14,6ZM540,380q-8,0 -14,-6t-6,-14q0,-8 6,-14t14,-6q8,0 14,6t6,14q0,8 -6,14t-14,6ZM232,788q-26,0 -43,-17t-17,-43v-496q0,-26 17,-43t43,-17h496q26,0 43,17t17,43v496q0,26 -17,43t-43,17L232,788ZM232,760h496q12,0 22,-10t10,-22v-496q0,-12 -10,-22t-22,-10L232,200q-12,0 -22,10t-10,22v496q0,12 10,22t22,10ZM200,200v560,-560Z"/>
++</vector>
+Index: app/src/main/res/drawable/ic_height.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_height.xml b/app/src/main/res/drawable/ic_height.xml
+new file mode 100644
+--- /dev/null	(date 1709657229016)
++++ b/app/src/main/res/drawable/ic_height.xml	(date 1709657229016)
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="960"
++    android:viewportHeight="960">
++  <path
++      android:fillColor="#808080"
++      android:pathData="M479,788 L356,665l19,-19 90,88v-509l-89,89 -19,-19 123,-123 123,123 -20,20 -90,-89v508l90,-88 19,19 -123,123Z"/>
++</vector>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1709548746689)
++++ b/.idea/misc.xml	(date 1709548746689)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/build/classes" />
++  </component>
++  <component name="ProjectType">
++    <option name="id" value="Android" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/deploymentTargetSelector.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetSelector.xml b/.idea/deploymentTargetSelector.xml
+new file mode 100644
+--- /dev/null	(date 1709672309365)
++++ b/.idea/deploymentTargetSelector.xml	(date 1709672309365)
+@@ -0,0 +1,18 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="deploymentTargetSelector">
++    <selectionStates>
++      <SelectionState runConfigName="app">
++        <option name="selectionMode" value="DROPDOWN" />
++        <DropdownSelection timestamp="2024-03-05T20:57:14.279646Z">
++          <Target type="DEFAULT_BOOT">
++            <handle>
++              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/mateusland/.android/avd/Pixel_2_API_31.avd" />
++            </handle>
++          </Target>
++        </DropdownSelection>
++        <DialogSelection />
++      </SelectionState>
++    </selectionStates>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1709548672446)
++++ b/.idea/.gitignore	(date 1709548672446)
+@@ -0,0 +1,3 @@
++# Default ignored files
++/shelf/
++/workspace.xml
+Index: app/src/main/res/layout/activity_result.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_result.xml b/app/src/main/res/layout/activity_result.xml
+new file mode 100644
+--- /dev/null	(date 1709672235539)
++++ b/app/src/main/res/layout/activity_result.xml	(date 1709672235539)
+@@ -0,0 +1,86 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:gravity="center_horizontal"
++    android:orientation="vertical"
++    tools:context=".ResultActivity">
++
++    <LinearLayout
++        android:id="@+id/vg_Header"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="24dp"
++        android:background="@drawable/gradient_bg"
++        android:orientation="vertical">
++
++        <ImageView
++            android:layout_width="48dp"
++            android:layout_height="48dp"
++            android:layout_marginStart="24dp"
++            android:layout_marginTop="24dp"
++            android:layout_marginBottom="16dp"
++            android:src="@drawable/ic_weight"
++            app:tint="@color/white" />
++
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginStart="24dp"
++            android:text="BMI Calculator"
++            android:textColor="@color/white"
++            android:textSize="24sp"
++            android:textStyle="bold" />
++
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginStart="24dp"
++            android:layout_marginTop="16dp"
++            android:layout_marginEnd="24dp"
++            android:text="Check below for your BMI result and classification:"
++            android:textColor="@color/white" />
++
++        <TextView
++            android:id="@+id/tv_Result"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:gravity="center"
++            android:layout_marginTop="16dp"
++            android:layout_marginBottom="48dp"
++            android:textColor="@color/white"
++            android:maxLength="5"
++            android:textSize="68sp"
++            android:textStyle="bold"
++            tools:text="23.66" />
++
++    </LinearLayout>
++
++
++    <TextView
++        android:id="@+id/tv_Classification_Label"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="48dp"
++        android:textSize="14sp"
++        android:text="Your BMI classification is: " />
++
++    <TextView
++        android:id="@+id/tv_Classification"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:textStyle="bold"
++        android:textSize="26sp"
++        android:textColor="@color/primary_900"
++        tools:text="NORMAL" />
++
++    <Button
++        android:id="@+id/btn_Recalculate"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="74dp"
++        android:text="Recalculate" />
++
++</LinearLayout>
+\ No newline at end of file

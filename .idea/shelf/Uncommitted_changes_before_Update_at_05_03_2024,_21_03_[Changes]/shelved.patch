@@ -1,0 +1,45 @@
+Index: app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.comunidadedevspace.imc\n\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.widget.Button\nimport com.google.android.material.snackbar.Snackbar\nimport com.google.android.material.textfield.TextInputEditText\n\nclass MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val edtWeight = findViewById<TextInputEditText>(R.id.edt_weight)\n        val edtHeight = findViewById<TextInputEditText>(R.id.edt_height)\n        val btnCalculate = findViewById<Button>(R.id.btn_calculate)\n\n        btnCalculate.setOnClickListener {\n\n\n            val weightStr = edtWeight.text.toString()\n            val heightStr = edtHeight.text.toString()\n\n            if (weightStr.isNotEmpty() || heightStr.isNotEmpty()) {\n\n                Snackbar.make(\n                    edtWeight,\n                    \"Fields cannot be empty\",\n                    Snackbar.LENGTH_SHORT\n                ).show()\n\n            } else {\n                val weight = weightStr.toFloat()\n                val height = heightStr.toFloat()\n\n                val bmiHeight = height * height\n                val bmiResult = weight / bmiHeight\n                println(\"Test: $bmiResult\")\n            }\n        }\n    }\n}\n
+===================================================================
+diff --git a/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt
+--- a/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt	
++++ b/app/src/main/java/com/comunidadedevspace/imc/MainActivity.kt	
+@@ -1,5 +1,6 @@
+ package com.comunidadedevspace.imc
+ 
++import android.content.Intent
+ import androidx.appcompat.app.AppCompatActivity
+ import android.os.Bundle
+ import android.widget.Button
+@@ -16,12 +17,10 @@
+         val btnCalculate = findViewById<Button>(R.id.btn_calculate)
+ 
+         btnCalculate.setOnClickListener {
+-
+-
+             val weightStr = edtWeight.text.toString()
+             val heightStr = edtHeight.text.toString()
+ 
+-            if (weightStr.isNotEmpty() || heightStr.isNotEmpty()) {
++            if (weightStr.isEmpty() || heightStr.isEmpty()) {
+ 
+                 Snackbar.make(
+                     edtWeight,
+@@ -33,9 +32,12 @@
+                 val weight = weightStr.toFloat()
+                 val height = heightStr.toFloat()
+ 
+-                val bmiHeight = height * height
+-                val bmiResult = weight / bmiHeight
+-                println("Test: $bmiResult")
++                val finalHeight = height * height
++                val bmiResult = weight / finalHeight
++
++                val intent = Intent(this, ResultActivity::class.java)
++                intent.putExtra(KEY_RESULT_BMI, bmiResult)
++                startActivity(intent)
+             }
+         }
+     }
