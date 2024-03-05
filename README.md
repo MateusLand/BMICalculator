@@ -1,11 +1,16 @@
-# Calculadora IMC
-This project is a native Android application developed with Kotlin and has as its main functionality to calculate the Body Mass Index and show on a second screen.
+# BMI Calculator
+This native Android application, developed with Kotlin, provides a simple way to calculate Body Mass Index (BMI). The app allows users to input their weight and height, and it calculates their BMI based on these values.
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
 <img src="https://github.com/MateusLand/BMICalculator/assets/77392394/ab05187f-e512-49ae-90dd-6ce344ce97e5" width=300/> <img src="https://github.com/MateusLand/BMICalculator/assets/77392394/8e56b7ac-aa6f-45fe-bfc1-9b6ea4c30771" width=300/>
 
-## Tecnologias
+## Features
+- Calculate BMI: Users can input their weight (in kilograms) and height (in meters), and the app calculates their BMI.
+- Display BMI Result: After calculation, the app displays the user's BMI on a second screen along with a classification (Underweight, Normal, Overweight, Obesity, Extreme Obesity).
+- Recalculate: Users can recalculate their BMI by going back to the main screen, where the fields for weight and height are cleared.
+
+## Technologies
 - Activity
 - Intent
 - SnackBar
